@@ -2,5 +2,7 @@ import { combineReducers } from "redux";
 import { todoReducer } from "./todoReducer";
 
 export const rootReducer = combineReducers({
-  todo: todoReducer,
+  todos: todoReducer,
+  user: (x = {}) => x,
+  auth: (x = {}) => x,
 });
