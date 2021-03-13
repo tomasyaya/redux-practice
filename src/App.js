@@ -1,22 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createTodo } from "./service";
+import "./App.css";
 
 function App() {
+  const todos = useSelector((state) => state.todo.todos);
+  const dispatch = useDispatch();
+  const [todo, setTodo] = React.useState("");
+  const handleSumit = async (e) => {
+    e.preventDefault();
+    const newTodo = await createTodo(todo);
+    dispatch({ type: "ADD", payload: newTodo });
+    setTodo("");
+  };
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <form onSubmit={handleSumit}>
+          <input
+            type="text"
+            name="todo"
+            value={todo}
+            onChange={({ target }) => setTodo(target?.value)}
+          />
+          <button type="submit">create</button>
+        </form>
+        {todos.map((todo) => (
+          <p key={todo}>{todo}</p>
+        ))}
       </header>
     </div>
   );
